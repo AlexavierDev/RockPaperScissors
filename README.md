@@ -14,7 +14,7 @@ the classic rock, paper and scissors game made with the purpose of practicing DO
 ## 
 
 
- - [Confira o game Aqui (DEMO)]()
+ - [Confira o game Aqui (DEMO)](https://alexavierdev.github.io/RockPaperScissors/)
 ## Authors
 
 - [@AlexavierDev](https://github.com/AlexavierDev)
