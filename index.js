@@ -1,70 +1,80 @@
-//VARIABLES COUNTER
-let pointsPlayer = 0
-let pointsComputer = 0
+
+let pointsPlayer = ''
+let pointsComputer = ''
+const buttons = document.querySelectorAll('input')
+const divResult = document.querySelector('.divResult')
+const paragrafo = document.createElement('p')
+let result = ''
+let resultFinal = ''
 
 
-//FUNCTON TO CACTH STRING RANDOM
+//FUNCTION ADD LISTENER EVENT IN EACH BUTTON
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playGame(button.value)
+    })
+})
+
+
+//FUNCTON TO CACTH STRING RANDOM FOR OPTION COMPUTER 
 function computerPlay() {
     let option = ['pedra', 'papel', 'tesoura']
     let optionCheck = option[Math.floor(Math.random() * option.length)]
 
     return optionCheck
-
 }
 
-//FUNCTION THAT RUN ONE GAME
+//FUNCTION FOR DISABLED BUTTTONS
+function disabledBbtns() {
+    buttons.forEach((btn) => {
+        btn.disabled = true
+    })
+}
 
-function playGame(optionPlayer, optionComputer) {
-    //CONDITIONS OF PLAYER
 
-    if (optionPlayer == 'pedra' && optionComputer == 'tesoura') {
+
+//FUNCTION THAT RUN GAME
+
+function playGame(optionPlayer) {
+    let optionComputer = computerPlay()
+
+    if ((optionPlayer == 'pedra' && optionComputer == 'tesoura') ||
+        (optionPlayer == 'tesoura' && optionComputer == 'papel') ||
+        (optionPlayer == 'papel' && optionComputer == 'pedra')) {
         pointsPlayer++
-        console.log('O Player Ganhou')
-    } else if (optionPlayer == 'tesoura' && optionComputer == 'papel') {
-        pointsPlayer++
-        console.log('O Player Ganhou')
-    } else if (optionPlayer == 'papel' && optionComputer == 'pedra') {
-        pointsPlayer++
-        console.log('O Player Ganhou')
+        result = ('Você Ganhou! ' + optionPlayer + ' VS ' + optionComputer
+            + "<br><br>Seus Pontos: " + pointsPlayer + "<br> Pontos Computador: " + pointsComputer)
+        if (pointsPlayer == 5) {
+            resultFinal = "PARABENS!!! você GANHOU essa rodada <br> <br> Recarregue a pagina para jogar novamente!"
+            result =resultFinal
+            disabledBbtns()
+        }
+    } else if (optionComputer == optionPlayer) {
 
-    //CONDITIONS OF COMPUTADOR
+        result = ("***** EMPATE ***** <br> <br> " + optionPlayer + " VS " + " " + optionComputer +
+            "<br><br>Seus Pontos: " + pointsPlayer + "<br> Pontos Computador: " + pointsComputer)
 
-    } else if (optionComputer == 'pedra' && optionPlayer == 'tesoura') {
-        pointsComputer++
-        console.log('O computador Ganhou')
-    } else if (optionComputer == 'tesoura' && optionPlayer == 'papel') {
-        pointsComputer++
-        console.log('O computador Ganhou')
-    } else if (optionComputer == 'papel' && optionPlayer == 'pedra') {
-        pointsComputer++
-        console.log('O computador Ganhou')
     } else {
-        console.log('Empate')
-    }
+        pointsComputer++
+        result = ('Você Perdeu! ' + optionPlayer + ' VS ' + optionComputer
+            + "<br><br>Seus Pontos: " + pointsPlayer + "<br> Pontos Computador: " + pointsComputer)
+        if (pointsComputer == 5) {
+            resultFinal = "INFELIZMENTE você PERDEU essa rodada <br> <br> Recarregue a pagina para jogar novamente!"
+            result = resultFinal
+            disabledBbtns()
 
-    console.log(`pontos do  PLAYER ${pointsPlayer}\
-                 pontos do COMPUTADOR ${pointsComputer}
-    `)
-}
-
-//FUNCTION THAT RUN FUNCTION PLAYGAME 5 TIMES
-function game() {
-    for (i = 1; i <= 5; i++) {
-        let optionPlayer = prompt('Digite pedra,papel ou tesoura').toLowerCase()
-        let optionComputer = computerPlay()
-        playGame(optionComputer,optionPlayer)
+        }
     }
-    //CHECK WHO WIN ROUND 
-    if(pointsComputer > pointsPlayer){
-        console.log('COMPUTER WINS!!! CONGRATULATIONS')
-    }else if(pointsPlayer > pointsComputer){
-        console.log('PLAYER WINS!!! CONGRATULATIONS')
-    }else{
-        console.log('EMPATE :)')
-    }
-    
+    //ADD LET RESULT IN DOM
+    divResult.appendChild(paragrafo)
+    paragrafo.innerHTML = result
 }
 
 
 
-game()
+
+
+
+
+
+
